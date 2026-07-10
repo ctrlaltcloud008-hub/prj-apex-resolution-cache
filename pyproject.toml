@@ -1,0 +1,43 @@
+[project]
+name = "prj-apex-resolution-cache"
+version = "0.1.0"
+description = "Serves proven exact resolutions and attributed hints for the Apex Investigator"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "google-auth>=2.30.0",
+    "fastapi[standard]>=0.137.1",
+    "google-cloud-spanner>=3.68.0",
+    "redis>=5.0.0",
+    "prj-apex-incident-store",
+]
+
+[tool.uv.sources]
+prj-apex-incident-store = { path = "../prj-apex-incident-store", editable = true }
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/resolution_cache"]
+
+[tool.ruff]
+src = ["src"]
+line-length = 80
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "N", "W", "UP", "B", "SIM", "RUF"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.0",
+    "ruff>=0.15.15",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
